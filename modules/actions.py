@@ -1,3 +1,4 @@
+import sys
 from functools import wraps
 import json
 from modules.do_request import do_request, do_raw_request
@@ -48,6 +49,7 @@ def member_add(args, producer_data,
     url = producer_url + "/" + uuid + "/members"
     json_data = {"member": consumer_tenant}
 
+
     if remove:
         print("\nAttempting to remove consumer {}"
               " as member to image {}...".format(consumer_tenant, uuid))
@@ -68,9 +70,16 @@ def member_add(args, producer_data,
             url, producer_token, json_data, mode="post")
         if status_code == 409:
             print "Member already exists!...don't worry...continuing..."
+        elif status_code == 404:
+            print ("No image found with ID {}." 
+                   "\nAre you sure the Producer's image"
+                   " resides in region {}?".format(
+                       uuid, args["region"]))
+            sys.exit()
         else:
             print status_code
             print body
+            sys.exit();
 
 
 def image_share(args, producer_data, consumer_data):

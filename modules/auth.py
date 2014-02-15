@@ -38,14 +38,16 @@ def authenticate(username, apikey, region):
 def get_link(jsonresp, username, region):
     """Gets the endpoints for Cloud files depending on region"""
     foo = jsonresp["access"]["serviceCatalog"]
+    index_save = None
     for i in foo:
-        for value in i.values():
-            if value == "cloudImages":
-                if str(i["endpoints"][0]["region"]) == region:
+        if i["name"] == "cloudImages":
+            for index, value in enumerate(i["endpoints"]): 
+                if str(value["region"]) == region:
                     bar = i
+                    index_save = index
     try:
-        region = str(bar["endpoints"][0]["publicURL"])
-    except NameError:
+        region = str(bar["endpoints"][index_save]["publicURL"])
+    except:
         print "\nThere's no image endpoint for {}!".format(username)
         sys.exit()
     return region

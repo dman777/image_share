@@ -1,5 +1,5 @@
 #Image Share ![alt text](https://raw2.github.com/dman777/icons/master/team.png)
-#####Version 2.0
+#####Version 2.5
 ##Introduction
 This is a utility to share a image between 2 Rackspace accounts. 
 With this utility you may:
